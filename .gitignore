@@ -1,0 +1,26 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+data/
+./data
+data.old/
+data.old
+data.ful
+wsis-boundingbox/
+test_tensorboard
+results
+test_data
+old
+main.ipynb
+data.zip
+Untitled17_(1).ipynb
+uv.lock
+training_data.zip
+prostate_BOUND_BOX code (1).ipynb
