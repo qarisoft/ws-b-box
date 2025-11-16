@@ -5,6 +5,9 @@ from torchvision_wj.models.segwithbox.boosting import create_boosted_model
 from torchvision_wj.models.segwithbox.boosting_ensemble import (
     create_boosting_ensemble_fixed,
 )
+from torchvision_wj.models.segwithbox.boosting_ensemble2 import (
+    create_boosting_ensemble_complete,
+)
 from torchvision_wj.models.segwithbox.boosting_v3 import create_sequential_boosting_v3
 
 # from torchvision_wj.models.segwithbox.boosting_v4 import (
@@ -35,6 +38,9 @@ __all__ = [
     "sequential_boosting_1",
     "sequential_boosting_2",
     "sequential_boosting_3",
+    "sequential_boosting_4",
+    "sequential_boosting_5",
+    "sequential_boosting_6",
 ]
 
 
@@ -191,6 +197,108 @@ def sequential_boosting_3(input_dim, num_classes, softmax, channels_in=32, simpl
         model2=unet,
         model3=res_unet,
         configuration=3,
+        model1_type="deeplab",
+        in_dim=input_dim,
+        out_dim=num_classes,
+        softmax=softmax,
+    )
+
+
+# TODO fourth senario
+def sequential_boosting_4(input_dim, num_classes, softmax, channels_in=32, simple=True):
+    """
+    4. UNet →        ResNet →    DeepLabV3
+
+    Refrence :->
+
+    1. Boosting Unet          --->Deeplapv3.       ----> ResNet
+    2. Boosting ResNet.       ---> Unet.           ----> Deeplabv3
+    3. Boosting Deeplabv3.    --->Unet.            ---->ResNet
+
+    configurations = [
+    4.   (2, "unet",     "UNet →        ResNet →    DeepLabV3"),
+    5.   (3, "resnet",   "ResNet →      UNet →      DeepLabV3"),
+    6.   (6, "deeplab",  "DeepLabV3 →   ResNet →    UNet"),
+    ]
+
+    """
+    unet, deeblap, res_unet = __create_models(
+        input_dim, num_classes, softmax, channels_in, simple
+    )
+
+    return create_boosting_ensemble_complete(
+        model1=deeblap,
+        model2=unet,
+        model3=res_unet,
+        configuration=2,
+        model1_type="unet",
+        in_dim=input_dim,
+        out_dim=num_classes,
+        softmax=softmax,
+    )
+
+
+# TODO fifth senario
+def sequential_boosting_5(input_dim, num_classes, softmax, channels_in=32, simple=True):
+    """
+    5. ResNet →      UNet →      DeepLabV3
+
+    Refrence :->
+
+    1. Boosting Unet          --->Deeplapv3.       ----> ResNet
+    2. Boosting ResNet.       ---> Unet.           ----> Deeplabv3
+    3. Boosting Deeplabv3.    --->Unet.            ---->ResNet
+
+    configurations = [
+    4.   (2, "unet",     "UNet →        ResNet →    DeepLabV3"),
+    5.   (3, "resnet",   "ResNet →      UNet →      DeepLabV3"),
+    6.   (6, "deeplab",  "DeepLabV3 →   ResNet →    UNet"),
+    ]
+
+    """
+    unet, deeblap, res_unet = __create_models(
+        input_dim, num_classes, softmax, channels_in, simple
+    )
+
+    return create_boosting_ensemble_complete(
+        model1=deeblap,
+        model2=unet,
+        model3=res_unet,
+        configuration=3,
+        model1_type="resnet",
+        in_dim=input_dim,
+        out_dim=num_classes,
+        softmax=softmax,
+    )
+
+
+# TODO sixth senario
+def sequential_boosting_6(input_dim, num_classes, softmax, channels_in=32, simple=True):
+    """
+    6. Deeplab   ->  ResNet   ->      Unet
+
+    Refrence :->
+
+    1. Boosting Unet          --->Deeplapv3.       ----> ResNet
+    2. Boosting ResNet.       ---> Unet.           ----> Deeplabv3
+    3. Boosting Deeplabv3.    --->Unet.            ---->ResNet
+
+    configurations = [
+    4.   (2, "unet",     "UNet →        ResNet →    DeepLabV3"),
+    5.   (3, "resnet",   "ResNet →      UNet →      DeepLabV3"),
+    6.   (6, "deeplab",  "DeepLabV3 →   ResNet →    UNet"),
+    ]
+
+    """
+    unet, deeblap, res_unet = __create_models(
+        input_dim, num_classes, softmax, channels_in, simple
+    )
+
+    return create_boosting_ensemble_complete(
+        model1=deeblap,
+        model2=unet,
+        model3=res_unet,
+        configuration=6,
         model1_type="deeplab",
         in_dim=input_dim,
         out_dim=num_classes,

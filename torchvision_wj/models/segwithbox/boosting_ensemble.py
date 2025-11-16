@@ -1,12 +1,17 @@
+# 1. Unet —> Resnet—>Deeplab
+# 2. ⁠Unet—> Deeplab—> Resnet
+# 3. ⁠Resnet—> Unet—>Deeplab
+# 4. ⁠Resnet—>Deeplab—>Unet
+# 5. ⁠Deeplab—>Unet—>Resnet
+# 6. ⁠Deeplab—>Resnet—>Unet
+
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
 from torchvision_wj.models.segwithbox.enet_23 import ENet
 from torchvision_wj.models.segwithbox.residualunet import ResidualUNet
-
-
-# enum
 
 
 class BaseBoostingModel(nn.Module):
